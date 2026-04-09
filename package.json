@@ -67,7 +67,7 @@
       {
         "provider": "github",
         "owner": "rixxieq",
-        "repo": "soundtify",
+        "repo": "Soundtify-Release",
         "publishAutoUpdate": false 
       }
     ],
