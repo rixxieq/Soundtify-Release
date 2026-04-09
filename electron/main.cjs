@@ -264,6 +264,54 @@ function createWindow() {
     return { action: 'deny' };
   });
 
+  win.webContents.on('did-fail-load', (_event, errorCode, errorDescription, validatedURL) => {
+    console.error('[Electron] Renderer failed to load:', { errorCode, errorDescription, validatedURL });
+    if (isDev || win.isDestroyed()) return;
+    win.loadURL(
+      `data:text/html;charset=utf-8,${encodeURIComponent(`
+        <!doctype html>
+        <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <title>Soundtify</title>
+            <style>
+              body {
+                margin: 0;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #0a0a0a;
+                color: #fff;
+                font-family: Segoe UI, sans-serif;
+                padding: 24px;
+                box-sizing: border-box;
+              }
+              .card {
+                max-width: 640px;
+                background: rgba(255,255,255,0.06);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 16px;
+                padding: 24px;
+              }
+              h1 { margin: 0 0 12px; font-size: 24px; }
+              p { margin: 0 0 8px; color: rgba(255,255,255,0.82); }
+              code { color: #7ee787; }
+            </style>
+          </head>
+          <body>
+            <div class="card">
+              <h1>Soundtify failed to load</h1>
+              <p>The packaged renderer files could not be opened.</p>
+              <p>Error: <code>${String(errorDescription || 'unknown error')}</code></p>
+              <p>URL: <code>${String(validatedURL || 'unknown')}</code></p>
+            </div>
+          </body>
+        </html>
+      `)}`
+    ).catch(() => {});
+  });
+
   if (isDev) {
     win.loadURL(process.env.ELECTRON_START_URL);
     win.webContents.openDevTools({ mode: 'detach' });
