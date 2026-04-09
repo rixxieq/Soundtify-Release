@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme {
+  --color-spotify-green: #FF5500;
+  /* --color-spotify-green: #1DB954; */
+  --color-accent: var(--color-spotify-green);
+  --color-accent-hover: #ff7a3a;
+  --color-spotify-black: #191414;
+  --color-spotify-dark-grey: #121212;
+  --color-spotify-light-grey: #282828;
+}
+
+@layer base {
+  body {
+    @apply bg-spotify-dark-grey text-white overflow-hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  *:focus,
+  *:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+@layer utilities {
+  .spotify-gradient {
+    background: linear-gradient(to bottom, #404040, #121212);
+  }
+
+  .track-row:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .active-track {
+    color: var(--color-spotify-green);
+  }
+
+  .accent-text {
+    color: var(--color-accent) !important;
+  }
+
+  .accent-bg {
+    background-color: var(--color-accent) !important;
+  }
+
+  .accent-bg-hover:hover {
+    background-color: var(--color-accent-hover) !important;
+  }
+
+  .accent-border {
+    border-color: var(--color-accent) !important;
+  }
+
+  .accent-ring {
+    box-shadow: 0 0 0 1px var(--color-accent) inset;
+  }
+
+  .accent-spinner {
+    border-color: var(--color-accent) !important;
+    border-top-color: transparent !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 6px;
+  border: 3px solid #121212;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.player-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+}
+
+.player-range::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 9999px;
+  background: transparent;
+}
+
+.player-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 0;
+  margin-top: -4px;
+  transition: background-color 0.15s ease;
+}
+
+.player-range:hover::-webkit-slider-thumb,
+.player-range:active::-webkit-slider-thumb {
+  background: #ffffff;
+}
+
+.player-range::-moz-range-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 0;
+}
+
+.player-range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 0;
+  transition: background-color 0.15s ease;
+}
+
+.player-range:hover::-moz-range-thumb,
+.player-range:active::-moz-range-thumb {
+  background: #ffffff;
+}

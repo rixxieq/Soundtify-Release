@@ -1,0 +1,67 @@
+name: Release Windows Build
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    env:
+      VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+      DISCORD_CLIENT_ID: ${{ vars.DISCORD_CLIENT_ID }}
+      SC_CLIENT_ID: ${{ secrets.SC_CLIENT_ID }}
+      SC_OAUTH_CLIENT_ID: ${{ secrets.SC_OAUTH_CLIENT_ID }}
+      SC_OAUTH_CLIENT_SECRET: ${{ secrets.SC_OAUTH_CLIENT_SECRET }}
+      SC_APP_VERSION: ${{ vars.SC_APP_VERSION }}
+      SC_APP_LOCALE: ${{ vars.SC_APP_LOCALE }}
+      SC_DATADOME_CLIENT_ID: ${{ secrets.SC_DATADOME_CLIENT_ID }}
+      SC_OAUTH_REDIRECT_URI: ${{ vars.SC_OAUTH_REDIRECT_URI }}
+      COOKIE_SECURE: true
+      CORS_ORIGINS: ${{ vars.CORS_ORIGINS }}
+      NODE_ENV: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install dependencies
+        run: npm ci --include=dev
+
+      - name: Build SMTC bridge
+        run: npm run build:smtc
+
+      - name: Build Windows release
+        shell: cmd
+        run: npx electron-builder --win nsis portable --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: soundtify-windows
+          path: dist_electron/*
+
+      - name: Publish GitHub release assets
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist_electron/*.exe

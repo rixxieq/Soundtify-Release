@@ -1,0 +1,5 @@
+{
+  "name": "Soundtify",
+  "description": "Soundtify desktop player built with React and Express.",
+  "requestFramePermissions": []
+}

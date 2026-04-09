@@ -1,0 +1,95 @@
+{
+  "name": "soundtify",
+  "version": "1.1.0",
+  "description": "Soundtify desktop player",
+  "author": "rixxieq",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "tsx server.ts",
+    "build": "npx vite build",
+    "build:smtc": "node scripts/build-smtc-bridge.cjs",
+    "start": "tsx server.ts",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "dev:electron": "concurrently -k \"npm run dev\" \"wait-on http://localhost:3000 && cross-env ELECTRON_START_URL=http://localhost:3000 electron .\"",
+    "build:electron": "npm run build:smtc && npm run build && electron-builder --dir",
+    "dist:win": "npm run build:smtc && npm run build && electron-builder --win",
+    "dist:win:nsis": "npm run build:smtc && npm run build && electron-builder --win nsis",
+    "dist:win:portable": "npm run build:smtc && npm run build && electron-builder --win portable",
+    "dist": "npm run dist:win"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "clsx": "^2.1.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "lucide-react": "^0.468.0",
+    "motion": "^12.34.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "tailwind-merge": "^2.5.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.0",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/express": "^5.0.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^40.6.0",
+    "electron-builder": "^26.8.1",
+    "tailwindcss": "^4.2.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.1",
+    "wait-on": "^9.0.4"
+  },
+  "build": {
+    "appId": "com.rixxieq.soundtify",
+    "productName": "Soundtify",
+    "directories": {
+      "output": "dist_electron",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "electron/smtc-bridge/bin/**"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "rixxieq",
+        "repo": "soundtify",
+        "publishAutoUpdate": false 
+      }
+    ],
+    "win": {
+      "executableName": "Soundtify",
+      "icon": "build/icon.ico",
+      "legalTrademarks": "Soundtify",
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "artifactName": "soundtify-${version}-setup-${arch}.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "Soundtify",
+      "createDesktopShortcut": true,
+      "differentialPackage": false
+    },
+    "portable": {
+      "artifactName": "soundtify-${version}-portable-${arch}.${ext}"
+    }
+  }
+}

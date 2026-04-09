@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>SmtcBridge</AssemblyName>
+    <RootNamespace>Soundtify.SmtcBridge</RootNamespace>
+    <AssemblyTitle>Soundtify</AssemblyTitle>
+    <Product>Soundtify</Product>
+    <Company>rixxieq</Company>
+    <Description>Soundtify native SMTC bridge</Description>
+    <FileDescription>Soundtify native SMTC bridge</FileDescription>
+    <ApplicationIcon>..\..\build\icon.ico</ApplicationIcon>
+    <Version>1.1.0.0</Version>
+    <FileVersion>1.1.0.0</FileVersion>
+    <InformationalVersion>1.1.0</InformationalVersion>
+    <UseWindowsForms>false</UseWindowsForms>
+    <UseWPF>false</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishTrimmed>false</PublishTrimmed>
+  </PropertyGroup>
+</Project>
